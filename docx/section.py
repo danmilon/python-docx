@@ -6,14 +6,17 @@ The |Section| object and related proxy classes.
 
 from __future__ import absolute_import, print_function, unicode_literals
 
+from docx.oxml.ns import qn
+
 
 class Section(object):
     """
     Document section, providing access to section and page setup settings.
     """
-    def __init__(self, sectPr):
+    def __init__(self, sectPr, document_part):
         super(Section, self).__init__()
         self._sectPr = sectPr
+        self._document_part = document_part
 
     @property
     def bottom_margin(self):
@@ -157,3 +160,67 @@ class Section(object):
     @top_margin.setter
     def top_margin(self, value):
         self._sectPr.top_margin = value
+
+    def add_header(self):
+        """
+        Return a |_Header| instance.
+        """
+        return "header"
+
+    @property
+    def headers(self):
+        """
+        |_Header| instance.
+        """
+
+        import pdb; pdb.set_trace()
+        return self._headers_or_footers(
+            references=self._sectPr.headerReference_lst(),
+            part_attr='header')
+
+    @property
+    def footers(self):
+        """"""
+
+        return self._headers_or_footers(
+            references=self._sectPr.footerReference_lst(),
+            part_attr='footer')
+
+    def _headers_or_footers(self, references, part_attr):
+        """"""
+
+        elements = []
+
+        for ref in references:
+            rel_id = ref.get(qn('r:id'))
+            part = self._document_part.related_parts[rel_id]
+            elements.append(getattr(part, part_attr))
+
+        return elements
+
+    @property
+    def primary_header(self):
+        """"""
+
+        ref = self._sectPr.primary_HeaderReference
+        return self._part_from_ref(ref).header
+
+    @property
+    def first_page_header(self):
+        """"""
+
+        ref = self._sectPr.first_page_HeaderReference
+        return self._part_from_ref(ref).header
+
+    @property
+    def even_page_header(self):
+        """"""
+
+        ref = self._sectPr.even_page_HeaderReference
+        return self._part_from_ref(ref).header
+
+    def _part_from_ref(self, ref):
+        """"""
+
+        rel_id = ref.get(qn('r:id'))
+        return self._document_part.related_parts[rel_id]

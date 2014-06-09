@@ -16,7 +16,7 @@ The main Document and related objects.
 
 .. autoclass:: Document
    :members:
-   :exclude-members: numbering_part, styles_part
+   :exclude-members: numbering_part, styles_part, header_part, footer_part
 
 
 .. currentmodule:: docx.parts.document

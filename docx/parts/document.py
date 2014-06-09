@@ -36,7 +36,7 @@ class DocumentPart(XmlPart):
         """
         new_sectPr = self._element.body.add_section_break()
         new_sectPr.start_type = start_type
-        return Section(new_sectPr)
+        return Section(new_sectPr, self)
 
     def add_table(self, rows, cols):
         """
@@ -82,7 +82,7 @@ class DocumentPart(XmlPart):
         """
         id_str_lst = self._element.xpath('//@id')
         used_ids = [int(id_str) for id_str in id_str_lst if id_str.isdigit()]
-        for n in range(1, len(used_ids)+2):
+        for n in range(1, len(used_ids) + 2):
             if n not in used_ids:
                 return n
 
@@ -100,7 +100,7 @@ class DocumentPart(XmlPart):
         """
         The |Sections| instance organizing the sections in this document.
         """
-        return Sections(self._element)
+        return Sections(self)
 
     @property
     def tables(self):
@@ -182,20 +182,23 @@ class Sections(Sequence):
     Sequence of |Section| objects corresponding to the sections in the
     document. Supports ``len()``, iteration, and indexed access.
     """
-    def __init__(self, document_elm):
+    def __init__(self, document):
         super(Sections, self).__init__()
-        self._document_elm = document_elm
+        self._document = document
 
     def __getitem__(self, key):
         if isinstance(key, slice):
-            sectPr_lst = self._document_elm.sectPr_lst[key]
-            return [Section(sectPr) for sectPr in sectPr_lst]
-        sectPr = self._document_elm.sectPr_lst[key]
-        return Section(sectPr)
+            sectPr_lst = self._document._element.sectPr_lst[key]
+            return [
+                Section(sectPr, self._document)
+                for sectPr in sectPr_lst
+            ]
+        sectPr = self._document._element.sectPr_lst[key]
+        return Section(sectPr, self._document)
 
     def __iter__(self):
-        for sectPr in self._document_elm.sectPr_lst:
-            yield Section(sectPr)
+        for sectPr in self._document._element.sectPr_lst:
+            yield Section(sectPr, self._document)
 
     def __len__(self):
-        return len(self._document_elm.sectPr_lst)
+        return len(self._document._element.sectPr_lst)

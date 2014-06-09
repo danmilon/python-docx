@@ -256,6 +256,49 @@ class CT_SectPr(BaseOxmlElement):
         pgMar = self.get_or_add_pgMar()
         pgMar.top = value
 
+    def headerReference_lst(self):
+        return self.xpath('./w:headerReference')
+
+    def footerReference_lst(self):
+        return self.xpath('./w:footerReference')
+
+    @property
+    def primary_HeaderReference(self):
+        return self._header_or_footer_ref(element='header',
+                                          type='default')
+
+    @property
+    def even_HeaderReference(self):
+        return self._header_or_footer_ref(element='header',
+                                          type='even')
+
+    @property
+    def first_page_HeaderReference(self):
+        return self._header_or_footer_ref(element='header',
+                                          type='first')
+
+    @property
+    def primary_FooterReference(self):
+        return self._header_or_footer_ref(element='footer',
+                                          type='default')
+
+    @property
+    def even_FooterReference(self):
+        return self._header_or_footer_ref(element='footer',
+                                          type='even')
+
+    @property
+    def first_page_FooterReference(self):
+        return self._header_or_footer_ref(element='footer',
+                                          type='first')
+
+    def _header_or_footer_ref(self, element, type):
+        refs = self.xpath("./w:%sReference[@w:type='%s']" % (element, type))
+        if refs:
+            return refs[0]
+        else:
+            raise KeyError('section has no %s %s' % (type, element))
+
 
 class CT_SectType(BaseOxmlElement):
     """
