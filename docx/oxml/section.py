@@ -256,6 +256,12 @@ class CT_SectPr(BaseOxmlElement):
         pgMar = self.get_or_add_pgMar()
         pgMar.top = value
 
+    def headerReference_lst(self):
+        return self.xpath('./w:headerReference')
+
+    def footerReference_lst(self):
+        return self.xpath('./w:footerReference')
+
 
 class CT_SectType(BaseOxmlElement):
     """

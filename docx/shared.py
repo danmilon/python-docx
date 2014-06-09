@@ -180,4 +180,5 @@ class Parented(object):
         """
         The package part containing this object
         """
+
         return self._parent.part

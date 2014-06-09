@@ -113,6 +113,10 @@ register_element_cls('w:pgSz',   CT_PageSz)
 register_element_cls('w:sectPr', CT_SectPr)
 register_element_cls('w:type',   CT_SectType)
 
+from docx.oxml.parts.section import CT_Header, CT_Footer
+register_element_cls('w:hdr', CT_Header)
+register_element_cls('w:ftr', CT_Footer)
+
 from docx.oxml.table import (
     CT_Row, CT_Tbl, CT_TblGrid, CT_TblGridCol, CT_TblLayoutType, CT_TblPr,
     CT_TblWidth, CT_Tc, CT_TcPr

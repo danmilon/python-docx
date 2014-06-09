@@ -16,6 +16,7 @@ from docx.opc.constants import CONTENT_TYPE as CT, RELATIONSHIP_TYPE as RT
 from docx.package import Package
 from docx.parts.numbering import NumberingPart
 from docx.parts.styles import StylesPart
+from docx.parts.section import HeaderPart
 from docx.shared import lazyproperty
 
 
@@ -35,6 +36,9 @@ class Document(object):
         document_part, package = self._open(docx)
         self._document_part = document_part
         self._package = package
+
+        # to be on par with other elements too
+        self.part = document_part
 
     def add_heading(self, text='', level=1):
         """
@@ -163,6 +167,36 @@ class Document(object):
             styles_part = StylesPart.new()
             self._document_part.relate_to(styles_part, RT.STYLES)
             return styles_part
+
+    @lazyproperty
+    def header_part(self, section=None):
+        """
+        Instance of |HeaderPart| for this document. Takes a section argument.
+        If none is passed, assumes default (sentinel) Section.
+        Creates an empty header part if one is not present.
+        """
+        return self._header_or_footer_part(
+            section=section,
+            cls=HeaderPart,
+            relation=RT.HEADER)
+
+    @lazyproperty
+    def footer_part(self, section=None):
+        return self._header_or_footer_part(
+            section=section,
+            cls=HeaderPart,
+            relation=RT.HEADER)
+
+    @lazyproperty
+    def header_or_footer_part(self, section, cls, relation):
+        if not section:
+            section = self.sections()[0]
+        try:
+            return self._document_part.part_related_by(relation)
+        except KeyError:
+            part = cls.new()
+            self._document_part.relate_to(part, relation)
+            return part
 
     @property
     def tables(self):
