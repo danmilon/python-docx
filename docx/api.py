@@ -140,13 +140,16 @@ class Document(object):
 
     @lazyproperty
     def endnotes_part(self):
+        """"""
         return self._notes_part(RT.ENDNOTES)
 
     @lazyproperty
     def footnotes_part(self):
+        """"""
         return self._notes_part(RT.FOOTNOTES)
 
     def _notes_part(self, rel_type):
+        """"""
         try:
             return self._document_part.part_related_by(rel_type)
         except KeyError:
@@ -154,6 +157,15 @@ class Document(object):
             self._document_part.relate_to(notes_part, rel_type)
             return notes_part
 
+    @property
+    def endnotes(self):
+        """"""
+        return self.endnotes_part.notes
+
+    @property
+    def footnotes(self):
+        """"""
+        return self.footnotes_part.notes
 
     def save(self, path_or_stream):
         """
