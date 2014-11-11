@@ -10,6 +10,11 @@ class NotesPart(XmlPart):
             self._notes_map = dict((n.id, n) for n in self.notes)
         return self._notes_map[note_id]
 
+    @classmethod
+    def new(cls):
+        """"""
+        raise NotImplementedError
+
     @property
     def notes(self):
         """"""
