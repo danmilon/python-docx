@@ -251,6 +251,14 @@ class CT_R(BaseOxmlElement):
         _RunContentAppender.append_to_run_from_text(self, text)
 
     @property
+    def endnote_refs(self):
+        return self.findall(qn('w:endnoteReference'))
+
+    @property
+    def footnote_refs(self):
+        return self.findall(qn('w:footnoteReference'))
+
+    @property
     def underline(self):
         """
         String contained in w:val attribute of ./w:rPr/w:u grandchild, or

@@ -32,6 +32,9 @@ class StylesPart(XmlPart):
         proxies) for this styles part.
         """
         return _Styles(self._element)
+    
+    def get_style(self, style_id):
+        return self._element.style_having_styleId(style_id)
 
 
 class _Styles(object):
@@ -45,3 +48,6 @@ class _Styles(object):
 
     def __len__(self):
         return len(self._styles_elm.style_lst)
+    
+    def __iter__(self):
+        return iter(self._styles_elm.style_lst)
