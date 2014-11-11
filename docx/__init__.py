@@ -15,6 +15,7 @@ from docx.parts.image import ImagePart
 from docx.parts.numbering import NumberingPart
 from docx.parts.styles import StylesPart
 from docx.parts.section import HeaderPart, FooterPart
+from docx.parts.notes import NotesPart
 
 
 def part_class_selector(content_type, reltype):
@@ -29,5 +30,7 @@ PartFactory.part_type_for[CT.WML_NUMBERING] = NumberingPart
 PartFactory.part_type_for[CT.WML_STYLES] = StylesPart
 PartFactory.part_type_for[CT.WML_HEADER] = HeaderPart
 PartFactory.part_type_for[CT.WML_FOOTER] = FooterPart
+PartFactory.part_type_for[CT.WML_ENDNOTES] = NotesPart
+PartFactory.part_type_for[CT.WML_FOOTNOTES] = NotesPart
 
 del CT, DocumentPart, PartFactory, part_class_selector
