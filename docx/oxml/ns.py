@@ -18,7 +18,8 @@ nsmap = {
     'wp':  ('http://schemas.openxmlformats.org/drawingml/2006/wordprocessing'
             'Drawing'),
     'mc':  ('http://schemas.openxmlformats.org/markup-compatibility/2006'),
-    'xml': ('http://www.w3.org/XML/1998/namespace')
+    'xml': ('http://www.w3.org/XML/1998/namespace'),
+    'wps': ('http://schemas.microsoft.com/office/word/2010/wordprocessingShape')
 }
 
 pfxmap = dict((value, key) for key, value in nsmap.items())
