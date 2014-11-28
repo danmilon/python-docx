@@ -21,7 +21,9 @@ nsmap = {
     'xml': ('http://www.w3.org/XML/1998/namespace'),
     'wps': ('http://schemas.microsoft.com/office/word/2010/'
             'wordprocessingShape'),
-    'v':   ('urn:schemas-microsoft-com:vml')
+    'v':   ('urn:schemas-microsoft-com:vml'),
+    'wpg': ('http://schemas.microsoft.com/office/word/2010/'
+            'wordprocessingGroup')
 }
 
 pfxmap = dict((value, key) for key, value in nsmap.items())
