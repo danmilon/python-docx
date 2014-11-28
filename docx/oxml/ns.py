@@ -17,6 +17,7 @@ nsmap = {
     'w':   ('http://schemas.openxmlformats.org/wordprocessingml/2006/main'),
     'wp':  ('http://schemas.openxmlformats.org/drawingml/2006/wordprocessing'
             'Drawing'),
+    'mc':  ('http://schemas.openxmlformats.org/markup-compatibility/2006'),
     'xml': ('http://www.w3.org/XML/1998/namespace')
 }
 
