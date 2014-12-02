@@ -166,6 +166,7 @@ register_element_cls('w:u',          CT_Underline)
 register_element_cls('w:vanish',     CT_OnOff)
 register_element_cls('w:webHidden',  CT_OnOff)
 
+
 from docx.oxml.parts.notes import (
     CT_Endnotes, CT_Footnotes, CT_Note, CT_EndnoteReference,
     CT_FootnoteReference
@@ -177,3 +178,8 @@ register_element_cls('w:footnotes', CT_Footnotes)
 register_element_cls('w:footnote', CT_Note)
 register_element_cls('w:endnoteReference', CT_EndnoteReference)
 register_element_cls('w:footnoteReference', CT_FootnoteReference)
+
+from docx.oxml.extra import (CT_TxBxContent, CT_SdtContent, CT_Sdt)
+register_element_cls('w:txbxContent', CT_TxBxContent)
+register_element_cls('w:sdt', CT_Sdt)
+register_element_cls('w:sdtContent', CT_SdtContent)
