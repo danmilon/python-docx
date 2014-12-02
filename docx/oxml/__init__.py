@@ -161,3 +161,8 @@ register_element_cls('w:t',          CT_Text)
 register_element_cls('w:u',          CT_Underline)
 register_element_cls('w:vanish',     CT_OnOff)
 register_element_cls('w:webHidden',  CT_OnOff)
+
+from docx.oxml.extra import (CT_TxBxContent, CT_SdtContent, CT_Sdt)
+register_element_cls('w:txbxContent', CT_TxBxContent)
+register_element_cls('w:sdt', CT_Sdt)
+register_element_cls('w:sdtContent', CT_SdtContent)
