@@ -161,3 +161,8 @@ register_element_cls('w:t',          CT_Text)
 register_element_cls('w:u',          CT_Underline)
 register_element_cls('w:vanish',     CT_OnOff)
 register_element_cls('w:webHidden',  CT_OnOff)
+
+from docx.oxml.parts import diagram
+register_element_cls('dgm:dataModel', diagram.CT_DataModel)
+register_element_cls('a:p', diagram.CT_P)
+register_element_cls('a:r', diagram.CT_R)
