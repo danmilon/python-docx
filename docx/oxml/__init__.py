@@ -183,3 +183,8 @@ from docx.oxml.extra import (CT_TxBxContent, CT_SdtContent, CT_Sdt)
 register_element_cls('w:txbxContent', CT_TxBxContent)
 register_element_cls('w:sdt', CT_Sdt)
 register_element_cls('w:sdtContent', CT_SdtContent)
+
+from docx.oxml.parts import diagram
+register_element_cls('dgm:dataModel', diagram.CT_DataModel)
+register_element_cls('a:p', diagram.CT_P)
+register_element_cls('a:r', diagram.CT_R)
