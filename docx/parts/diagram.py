@@ -8,6 +8,8 @@ from __future__ import (
 )
 
 from ..opc.package import XmlPart
+from ..oxml import parse_xml
+from ..oxml.ns import qn
 from ..shared import lazyproperty
 from docx.blkcntnr import BlockItemContainer
 
@@ -15,6 +17,39 @@ from docx.blkcntnr import BlockItemContainer
 class DiagramPart(XmlPart):
     """
     """
+
+    convertable_tags = {qn('a:' + t): qn('w:' + t) for t in [
+        'p', 'r', 't', 'pPr', 'br', 'cr', 'tab'
+    ]}
+
+    @classmethod
+    def convert_to_wml(cls, root):
+        for element in root:
+            if element.tag in cls.convertable_tags:
+                new_tag = cls.convertable_tags[element.tag]
+                element.tag = new_tag
+
+            cls.convert_to_wml(element)
+
+    @classmethod
+    def convert_to_dml(cls, root):
+        for element in root:
+            if element.tag in cls.convertable_tags.values():
+                element.tag = qn('a:' + element.tag[element.tag.rindex('}') + 1])
+
+            cls.convert_to_dml(element)
+
+    def before_marshal(self):
+        self.convert_to_dml(self._element)
+        del self._element[qn('w:foobar')]
+
+    @classmethod
+    def load(cls, partname, content_type, blob, package):
+        element = parse_xml(blob)
+        element.set(qn('w:foobar'), 'foobar')
+        cls.convert_to_wml(element)
+
+        return cls(partname, content_type, element, package)
 
     @lazyproperty
     def data_model(self):
