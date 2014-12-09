@@ -9,7 +9,7 @@ from __future__ import (
 
 from ..opc.package import XmlPart
 from ..oxml import parse_xml
-from ..oxml.ns import qn
+from ..oxml.ns import qn, nsmap
 from ..shared import lazyproperty
 from docx.blkcntnr import BlockItemContainer
 
@@ -41,14 +41,11 @@ class DiagramPart(XmlPart):
 
     def before_marshal(self):
         self.convert_to_dml(self._element)
-        del self._element[qn('w:foobar')]
 
     @classmethod
     def load(cls, partname, content_type, blob, package):
         element = parse_xml(blob)
-        element.set(qn('w:foobar'), 'foobar')
         cls.convert_to_wml(element)
-
         return cls(partname, content_type, element, package)
 
     @lazyproperty
