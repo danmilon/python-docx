@@ -61,7 +61,7 @@ class DiagramPart(XmlPart):
     @classmethod
     def load(cls, partname, content_type, blob, package):
         str_blob = blob.decode()
-        blob = str_blob.replace('<dgm:dataModel', '<dgm:dataModel xmlns:w="%s"' % nsmap['w'], count=1).encode()
+        blob = str_blob.replace('<dgm:dataModel', '<dgm:dataModel xmlns:w="%s"' % nsmap['w'], 1).encode()
         element = parse_xml(blob)
         cls.convert_to_wml(element)
         return cls(partname, content_type, element, package)
