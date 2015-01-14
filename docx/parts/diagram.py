@@ -7,11 +7,27 @@ from __future__ import (
     absolute_import, division, print_function, unicode_literals
 )
 
+from lxml import etree
 from ..opc.package import XmlPart
 from ..oxml import parse_xml
-from ..oxml.ns import qn
+from ..oxml.ns import qn, nsmap
 from ..shared import lazyproperty
 from docx.blkcntnr import BlockItemContainer
+
+
+def new_root_with_ns(ns, short, root):
+    # add new ns
+    nsmap = root.nsmap
+    nsmap[short] = ns
+    new_root = etree.Element(root.tag, root.attrib, nsmap=nsmap)
+
+    # copy rest
+    new_root.tail = root.tail
+
+    # copy all children
+    new_root[:] = root[:]
+
+    return new_root
 
 
 class DiagramPart(XmlPart):
@@ -44,9 +60,10 @@ class DiagramPart(XmlPart):
 
     @classmethod
     def load(cls, partname, content_type, blob, package):
+        str_blob = blob.decode()
+        blob = str_blob.replace('<dgm:dataModel', '<dgm:dataModel xmlns:w="%s"' % nsmap['w'], count=1).encode()
         element = parse_xml(blob)
         cls.convert_to_wml(element)
-
         return cls(partname, content_type, element, package)
 
     @lazyproperty

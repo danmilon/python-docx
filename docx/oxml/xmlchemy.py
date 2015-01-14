@@ -700,6 +700,7 @@ class _OxmlElementBase(etree.ElementBase):
     __metaclass__ = MetaOxmlElement
 
     def __repr__(self):
+        import pdb; pdb.set_trace()
         return "<%s '<%s>' at 0x%0x>" % (
             self.__class__.__name__, self._nsptag, id(self)
         )
